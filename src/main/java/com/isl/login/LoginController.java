@@ -25,8 +25,10 @@ public class LoginController {
          ModelAndView mav = new ModelAndView("index"); 
 
          List<LoginVO> testList = loginService.selectLoginTest(); 
+
          logger.error("test ::  "+ testList);
          mav.addObject("list", testList); 
+         
          return mav; 
          
     }
