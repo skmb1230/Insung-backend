@@ -1,0 +1,30 @@
+server:
+  port: 9091
+
+spring:
+  #프로필 설정
+    profiles:  
+        active: dev
+    config:
+        use-legacy-processing: true
+    datasource:
+        #driverClassName: org.mariadb.jdbc.Driver
+        driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+        type: com.zaxxer.hikari.HikariDataSource
+        #url: jdbc:mariadb://localhost:3306/insunglol?characterEncoding=UTF-8&serverTimezone=UTC
+        url: jdbc:log4jdbc:mariadb://localhost:3306/insunglol?characterEncoding=UTF-8&serverTimezone=UTC
+        username: isl
+        password: isl11
+        hikari:
+            maximum-pool-size: 10
+            connection-timeout: 5000
+            connection-init-sql: SELECT 1
+            validation-timeout: 2000
+            minimum-idle: 10
+            idle-timeout: 600000
+            max-lifetime: 1800000
+mybatis:
+    # mapper.xml 위치 지정 # **은 하위 폴더 레벨에 상관없이 모든 경로를 뜻하며, *는 아무 이름이나 와도 된다는것을 뜻합니다. 
+    mapper-locations: classpath:mapper/**/**/**/*.xml
+    config-location: classpath:mybatis/config/mybatis-config.xml
+

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<configuration>
+
+    <!--   # 디비_(언더바)를 camelcase로 맵핑해주는 설정을 세팅 -->
+    <settings>
+        <setting name ="mapUnderscoreToCamelCase" value="true"/>
+    </settings>
+	<!-- 별칭 -->
+	<typeAliases>
+		<typeAlias type="com.isl.login.vo.LoginVO" alias="loginVO"/>
+	</typeAliases>
+
+</configuration>
