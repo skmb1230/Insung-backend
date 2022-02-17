@@ -26,7 +26,9 @@ public class LoginController {
 
          List<LoginVO> testList = loginService.selectLoginTest(); 
 
-         logger.error("test ::  "+ testList);
+         //logger.error("test ::  "+ testList);
+         
+         logger.error("성공");
          mav.addObject("list", testList); 
          
          return mav; 
