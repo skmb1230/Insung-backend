@@ -19,14 +19,16 @@ spring:
             idle-timeout: 600000
             max-lifetime: 1800000
     # modelandveiw setview 설정할 경우  prefix 경로 , suffix 파일형식을 찾아간다
-    mvc:
-        view:
-            prefix: /
-            suffix: .html
+    #mvc:
+     #   view:
+      #      prefix: /
+       #     suffix: .html
     #프로필 설정
     profiles:  
         active: local
-    #dbcp 설정
+    #토큰 시크릿 키
+    jwt:
+      secret: jwtsecretkey
  
 
 mybatis:
@@ -34,6 +36,7 @@ mybatis:
     mapper-locations: classpath:mapper/**/**/**/*.xml
     config-location: classpath:mybatis/config/mybatis-config.xml
  
+
 
 
   

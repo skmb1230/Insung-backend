@@ -13,7 +13,6 @@ public class InsungApplication {
 
 	public static void main(String[] args) {
 
-		//System.out.println("test :: "+args[0]);
 		SpringApplication.run(InsungApplication.class, args);
 		
 	}
