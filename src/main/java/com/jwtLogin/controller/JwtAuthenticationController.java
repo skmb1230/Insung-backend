@@ -1,11 +1,16 @@
 package com.jwtLogin.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,29 +50,49 @@ public class JwtAuthenticationController {
 	@Autowired
 	private JwtUserDetailsService userDetailsService;
 
+	/**
+	 * 
+	 * @param authenticationRequest
+	 * @param response
+	 * @return
+	 * @throws Exception
+	 */
 	@RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-	
-		authenticate(authenticationRequest.getUsername(), authenticationRequest.getPassword());
-	
-		final UserDetails userDetails = userDetailsService
-				.loadUserByUsername(authenticationRequest.getUsername());
-	
-		final String token = jwtTokenUtil.generateToken(userDetails);
+	public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest,HttpServletResponse response) throws Exception {
 		
+		//authenticate(authenticationRequest.getUserEmail(), authenticationRequest.getPassword());
+		System.out.println("id ::"+authenticationRequest.getUserEmail());
+		System.out.println("pw ::"+authenticationRequest.getPassword());
+		final UserDetails userDetails = userDetailsService
+				.loadUserByUsername(authenticationRequest.getUserEmail());
+
+		final String token = jwtTokenUtil.generateToken(userDetails);
+
 		return ResponseEntity.ok(new JwtResponse(token));
 	}
+	
 	private void authenticate(String username, String password) throws Exception {
-		try {
-			//검증매니저 왜오류나는지 이해불가..
-			//authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-			
-		} catch (DisabledException e) {
-			throw new Exception("USER_DISABLED", e);
-		} catch (BadCredentialsException e) {
-			System.out.println(e);
-			throw new Exception("INVALID_CREDENTIALS", e);
-		}
+        try {
+        	
+        	Authentication authentication = authenticationManager.authenticate(
+    				new UsernamePasswordAuthenticationToken(username, password));
+            System.out.println(authentication);
+        } catch (DisabledException e) {
+        	System.out.println(e);
+            throw new Exception("USER_DISABLED", e);
+        } catch (BadCredentialsException e) {
+        	System.out.println(e);
+            throw new Exception("INVALID_CREDENTIALS", e);
+        }
+    }
+	
+	// Refresh API
+	@RequestMapping(value="/refreshToken" , method=RequestMethod.POST)
+	public String refreshToken(HttpServletRequest request , HttpServletResponse response) throws Exception{
+	 
+	    String token = request.getHeader(HttpHeaders.AUTHORIZATION);
+	    System.out.println("만료안되길");
+	    return token.substring(7);
 	}
 	
 }

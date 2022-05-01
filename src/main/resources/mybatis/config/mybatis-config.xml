@@ -10,6 +10,7 @@
 	<!-- 별칭 -->
 	<typeAliases>
 		<typeAlias type="com.isl.login.vo.LoginVO" alias="loginVO"/>
+		<typeAlias type="com.jwtLogin.service.JwtUserDetails" alias="jwtUserDetails"/>
 	</typeAliases>
 
 </configuration>
